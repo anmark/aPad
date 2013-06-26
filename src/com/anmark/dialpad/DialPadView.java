@@ -2,11 +2,10 @@ package com.anmark.dialpad;
 
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.media.SoundPool.OnLoadCompleteListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +20,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 	private int sound1ID, sound2ID, sound3ID,sound4ID,sound5ID,sound6ID,sound7ID, sound8ID, sound9ID, soundSID, sound0ID, soundPID;
 
-	boolean loaded = false;
-
-	private Context context;
-
+	boolean loaded = true;
+	
 	public DialPadView(Context context) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
@@ -38,9 +35,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		init(context);
 	}
 
+	@SuppressLint("UseSparseArrays")
 	public void init(Context context){
-
-		this.context = context;
 
 		sound1ID = 1;
 		sound2ID = 2;
@@ -51,8 +47,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		sound7ID = 7;
 		sound8ID = 8;
 		sound9ID = 9;
-		soundSID = 11;
-		sound0ID = 0;
+		soundSID = 10;
+		sound0ID = 11;
 		soundPID = 12;
 
 		Button b1 = (Button) findViewById(R.id.button1);
@@ -83,7 +79,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 		//this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// Load the sound
-		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+
+		/*soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 		soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
 			@Override
 			public void onLoadComplete(SoundPool soundPool, int sampleId,
@@ -91,7 +88,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 				loaded = true;
 			}
 		});
-
+		 */
+		
 		// Initialize sounds
 		soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
 		soundPoolMap = new HashMap<Integer, Integer>();
@@ -108,9 +106,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		soundPoolMap.put(sound0ID, soundPool.load(context, R.raw.zero, 1));
 		soundPoolMap.put(soundPID, soundPool.load(context, R.raw.pound, 1));
 
-
-
 	}
+	
 	/*
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -157,8 +154,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 	public void onClick(View v) {
 		if(loaded){
-			// Getting the user sound settings
-
+			
+			// Get user sound settings
 			AudioManager mgr = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
 			int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
 
