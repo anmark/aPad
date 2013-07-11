@@ -10,7 +10,7 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DialPadView myDialPad = new DialPadView(getApplicationContext());
-		setContentView(myDialPad);		
+		setContentView(myDialPad);	
 	}
 
 	@Override

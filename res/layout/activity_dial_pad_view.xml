@@ -1,23 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="false"
+    >
 
-<LinearLayout
-    android:id="@+id/tablelayout1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:weightSum="10">
-	
+    <LinearLayout
+        android:id="@+id/tablelayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10" >
+
         <EditText
             android:id="@+id/pressedNumbers"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="8"
             android:ems="10"
-            android:editable="false"
-            android:textColor="@android:color/black" >
-
+            android:freezesText="true"
+            android:inputType="phone"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+                 >
         </EditText>
 
         <Button
@@ -25,145 +30,148 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:longClickable="true"
-            android:background="@drawable/buttonarrow" />
+            android:background="@drawable/buttonarrow"
+            android:longClickable="true" />
 
         <Button
             android:id="@+id/buttoncall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/buttoncall" />
-</LinearLayout>
-    
-<TableLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@+id/tablelayout1"
-    android:weightSum="12"
-    tools:context="com.anmark.dialpad.MainActivity" >
+            android:background="@drawable/buttoncall" >
+        </Button>
+    </LinearLayout>
 
-    <!-- xmlns:custom="http://schemas.android.com/apk/res/com.anmark.dialpad.DialPadView" -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tablelayout1"
+        android:weightSum="12"
+        tools:context="com.anmark.dialpad.MainActivity" >
 
-    <!-- 3 columns -->
+        <!-- xmlns:custom="http://schemas.android.com/apk/res/com.anmark.dialpad.DialPadView" -->
 
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="3" >
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button1" />
+        <!-- 3 columns -->
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button2" />
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" >
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button3" />
-    </TableRow>
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button1" 
+/>
 
-    <!-- 3 columns -->
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button2" />
 
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="3" >
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button3" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button4" />
+        <!-- 3 columns -->
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button5" />
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" >
 
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button6" />
-    </TableRow>
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button4" />
 
-    <!-- 3 columns -->
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button5"/>
 
-    <TableRow
-        android:id="@+id/tableRow3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="3" >
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button6" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/button7"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button7" />
+        <!-- 3 columns -->
 
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button8" />
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" >
 
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button9" />
-    </TableRow>
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button7" />
 
-    <!-- 3 columns -->
+            <Button
+                android:id="@+id/button8"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button8" />
 
-    <TableRow
-        android:id="@+id/tableRow4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="3" >
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button9" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/buttonS"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttons" />
+        <!-- 3 columns -->
 
-        <Button
-            android:id="@+id/button0"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button0" />
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" >
 
-        <Button
-            android:id="@+id/buttonP"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttonp" />
-    </TableRow>
+            <Button
+                android:id="@+id/buttonS"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/buttons" />
 
-</TableLayout>
+            <Button
+                android:id="@+id/button0"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button0" />
+
+            <Button
+                android:id="@+id/buttonP"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/buttonp" />
+        </TableRow>
+    </TableLayout>
+
 </RelativeLayout>

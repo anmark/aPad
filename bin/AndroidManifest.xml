@@ -3,16 +3,21 @@
     package="com.anmark.dialpad"
     android:versionCode="1"
     android:versionName="1.0" >
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission> 
+
     <uses-sdk
-        android:minSdkVersion="17"
+        android:minSdkVersion="15"
         android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" >
+    </uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+         >
         <activity
             android:name="com.anmark.dialpad.MainActivity"
             android:label="@string/app_name" >
@@ -24,7 +29,9 @@
         </activity>
         <activity
             android:name="com.anmark.dialpad.DialPadView"
-            android:label="@string/title_activity_dial_pad_view" >
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:label="@string/title_activity_dial_pad_view"
+            android:parentActivityName="com.anmark.dialpad.MainActivity" >
         </activity>
     </application>
 
