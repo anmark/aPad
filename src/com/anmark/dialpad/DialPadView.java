@@ -43,14 +43,14 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		inflater.inflate(R.layout.activity_dial_pad_view, this, true);
 		*/
 		View.inflate(context, R.layout.activity_dial_pad_view, this);
-		setFocusable(true);
+		//setFocusable(true);
 		//setFocusableInTouchMode(true);
 		init(context);
 	}
 
 	public DialPadView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		setFocusable(true);
+		//setFocusable(true);
 		//setFocusableInTouchMode(true);
 		init(context);
 	}
@@ -423,8 +423,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		if(soundLoaded){
 			// Get user sound settings
 			AudioManager mgr = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-			int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-
+			int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);		
 			switch (v.getId()) {
 			case R.id.button1:
 				soundPool.play(sound1ID, streamVolume, streamVolume, 1, 0, 1f);
