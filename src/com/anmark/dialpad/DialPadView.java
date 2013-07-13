@@ -219,7 +219,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		System.out.println("keyevent: " + keyCode);
-		//super.onKeyDown(keyCode, event);
+		//super.onWKeyDown(keyCode, event);
+		
 		if(soundLoaded){
 			// Get user sound settings
 			AudioManager mgr = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
@@ -227,72 +228,71 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 			switch (keyCode) {
 			case KeyEvent.KEYCODE_1:
-				b1.setBackgroundResource(R.drawable.dialpad_1_pressed);
+				b1.setPressed(true);
 				soundPool.play(sound1ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "1";
 				break;
 			case KeyEvent.KEYCODE_2:
-				b2.setBackgroundResource(R.drawable.dialpad_2_pressed);
+				b2.setPressed(true);
 				soundPool.play(sound2ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "2";
 				break;
 			case KeyEvent.KEYCODE_3:
-				b3.setBackgroundResource(R.drawable.dialpad_3_pressed);
+				b3.setPressed(true);
 				soundPool.play(sound3ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "3";
 				break;
 			case KeyEvent.KEYCODE_4:
-				b4.setBackgroundResource(R.drawable.dialpad_4_pressed);
+				b4.setPressed(true);
 				soundPool.play(sound4ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "4";
 				break;
 			case KeyEvent.KEYCODE_5:
-				b5.setBackgroundResource(R.drawable.dialpad_5_pressed);
+				b5.setPressed(true);
 				soundPool.play(sound5ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "5";
 				break;
 			case KeyEvent.KEYCODE_6:
-				b6.setBackgroundResource(R.drawable.dialpad_6_pressed);
+				b6.setPressed(true);
 				soundPool.play(sound6ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "6";
 				break;
 			case KeyEvent.KEYCODE_7:
-				b7.setBackgroundResource(R.drawable.dialpad_7_pressed);
+				b7.setPressed(true);
 				soundPool.play(sound7ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "7";
 				break;
 			case KeyEvent.KEYCODE_8:
-				b8.setBackgroundResource(R.drawable.dialpad_8_pressed);
+				b8.setPressed(true);
 				soundPool.play(sound8ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "8";
 				break;
 			case KeyEvent.KEYCODE_9:
-				b9.setBackgroundResource(R.drawable.dialpad_9_pressed);
+				b9.setPressed(true);
 				soundPool.play(sound9ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "9";
 				break;
 			case KeyEvent.KEYCODE_STAR:
-				bS.setBackgroundResource(R.drawable.dialpad_s);
+				bS.setPressed(true);
 				soundPool.play(soundSID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "*";
 				break;
 			case KeyEvent.KEYCODE_0:
-				b0.setBackgroundResource(R.drawable.dialpad_0_pressed);
+				b0.setPressed(true);
 				soundPool.play(sound0ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "0";
 				break;
 			case KeyEvent.KEYCODE_POUND:
-				bP.setBackgroundResource(R.drawable.dialpad_p);
+				bP.setPressed(true);
 				soundPool.play(soundPID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "#";
 				break;
 			case KeyEvent.KEYCODE_CLEAR:
-				bArrow.setBackgroundResource(R.drawable.dialpad_arrow_pressed);
+				bArrow.setPressed(true);
 				if(numbers.length() != 0)
 					numbers = numbers.substring(0 , numbers.length()-1);
 				break;
 			case KeyEvent.KEYCODE_CALL:
-				bCall.setBackgroundResource(R.drawable.dialpad_call_pressed);
 				try {
 					Intent callIntent = new Intent(Intent.ACTION_CALL);
 					callIntent.setData(Uri.parse("tel:" + numbers));
@@ -313,46 +313,60 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		else{// sound not loaded, just get pressed number
 			switch (keyCode) {
 			case KeyEvent.KEYCODE_1:
+				b1.setPressed(true);
 				numbers = numbers + "1";
 				return true;
 			case KeyEvent.KEYCODE_2:
+				b2.setPressed(true);
 				numbers = numbers + "2";
 				return true;
 			case KeyEvent.KEYCODE_3:
+				b3.setPressed(true);
 				numbers = numbers + "3";
 				return true;
 			case KeyEvent.KEYCODE_4:
+				b4.setPressed(true);
 				numbers = numbers + "4";
 				return true;
 			case KeyEvent.KEYCODE_5:
+				b5.setPressed(true);
 				numbers = numbers + "5";
 				return true;
 			case KeyEvent.KEYCODE_6:
+				b6.setPressed(true);
 				numbers = numbers + "6";
 				return true;
 			case KeyEvent.KEYCODE_7:
+				b7.setPressed(true);
 				numbers = numbers + "7";
 				return true;
 			case KeyEvent.KEYCODE_8:
+				b8.setPressed(true);
 				numbers = numbers + "8";
 				return true;
 			case KeyEvent.KEYCODE_9:
+				b9.setPressed(true);
 				numbers = numbers + "9";
 				return true;
 			case KeyEvent.KEYCODE_STAR:
+				bS.setPressed(true);
 				numbers = numbers + "*";
 				return true;
 			case KeyEvent.KEYCODE_0:
+				b0.setPressed(true);
 				numbers = numbers + "0";
 				return true;
 			case KeyEvent.KEYCODE_POUND:
+				bP.setPressed(true);
 				numbers = numbers + "#";
 				break;
 			case KeyEvent.KEYCODE_CLEAR:
+				bArrow.setPressed(true);
 				if(numbers.length() != 0)
 					numbers = numbers.substring(0 , numbers.length()-1);
 				break;
 			case KeyEvent.KEYCODE_CALL:
+				bCall.setPressed(true);
 				try {
 					Intent callIntent = new Intent(Intent.ACTION_CALL);
 					callIntent.setData(Uri.parse("tel:" + numbers));
@@ -375,45 +389,46 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 			switch (keyCode) {
 			case KeyEvent.KEYCODE_1:
-				b1.setBackgroundResource(R.drawable.dialpad_1);
+				b1.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_2:
-				b2.setBackgroundResource(R.drawable.dialpad_2);
+				b2.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_3:
-				b3.setBackgroundResource(R.drawable.dialpad_3);
+				b3.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_4:
-				b4.setBackgroundResource(R.drawable.dialpad_4);
+				b4.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_5:
-				b5.setBackgroundResource(R.drawable.dialpad_5);
+				b5.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_6:
-				b6.setBackgroundResource(R.drawable.dialpad_6);
+				b6.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_7:
-				b7.setBackgroundResource(R.drawable.dialpad_7);
+				b7.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_8:
-				b8.setBackgroundResource(R.drawable.dialpad_8);
+				b8.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_9:
-				b9.setBackgroundResource(R.drawable.dialpad_9);
+				b9.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_STAR:
-				bS.setBackgroundResource(R.drawable.dialpad_s_pressed);
+				bS.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_0:
-				b0.setBackgroundResource(R.drawable.dialpad_0);
+				b0.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_POUND:
-				bP.setBackgroundResource(R.drawable.dialpad_p_pressed);
+				bP.setPressed(false);
 				break;
 			case KeyEvent.KEYCODE_CLEAR:
-				bArrow.setBackgroundResource(R.drawable.dialpad_arrow);
+				bArrow.setPressed(false);
+				break;
 			case KeyEvent.KEYCODE_CALL:
-				bCall.setBackgroundResource(R.drawable.dialpad_call);
+				bCall.setPressed(false);
 				break;
 			}
 			return true;
