@@ -17,6 +17,7 @@
             android:ems="10"
             android:freezesText="true"
             android:inputType="phone"
+            android:focusableInTouchMode="false"
             android:singleLine="true"
             android:textColor="@android:color/black" >
         </EditText>

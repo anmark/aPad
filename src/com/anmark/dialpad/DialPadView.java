@@ -10,14 +10,14 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 public class DialPadView extends TableLayout implements OnClickListener{
 
@@ -41,17 +41,14 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		/*LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.activity_dial_pad_view, this, true);
-		*/
+		 */
 		View.inflate(context, R.layout.activity_dial_pad_view, this);
-		//setFocusable(true);
-		//setFocusableInTouchMode(true);
 		init(context);
 	}
 
 	public DialPadView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		//setFocusable(true);
-		//setFocusableInTouchMode(true);
+		View.inflate(context, R.layout.activity_dial_pad_view, this);
 		init(context);
 	}
 
@@ -68,9 +65,6 @@ public class DialPadView extends TableLayout implements OnClickListener{
 			//  to know is we can neither read nor write
 			mExternalStorageAvailable = mExternalStorageWriteable = false;
 		}
-		System.out.println(Environment.getExternalStorageDirectory());
-		System.out.println("mExternalStorageAvailable: " + mExternalStorageAvailable);
-		System.out.println("mExternalStorageWriteable: " + mExternalStorageWriteable);
 	}
 
 	@SuppressLint("UseSparseArrays")
@@ -185,18 +179,13 @@ public class DialPadView extends TableLayout implements OnClickListener{
 			soundLoaded = true;
 		}
 		else{
-			/*AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-			builder.setMessage("No external sd card found, sound will not be played")
-			.setCancelable(false)
-			.setIcon(R.drawable.ic_launcher)
-			.setPositiveButton("Ok",
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// do nothing
-				}
-			});
-			AlertDialog alert = builder.create();
-			alert.show();*/
+			// Prompt user if no external storage available
+			
+			int duration = Toast.LENGTH_LONG;
+			Toast toast = Toast.makeText(context,
+					"No external sd card found, sound will not be played", duration);
+			toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
+			toast.show();	
 		}
 
 		/*
@@ -215,224 +204,239 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		 */
 	}
 
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		System.out.println("keyevent: " + keyCode);
 		//super.onWKeyDown(keyCode, event);
-		
+
+		System.out.println(event.getUnicodeChar());
+		System.out.println((char) event.getUnicodeChar());
+		char pressedKey = (char) event.getUnicodeChar();
+
 		if(soundLoaded){
 			// Get user sound settings
 			AudioManager mgr = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
 			int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-			switch (keyCode) {
-			case KeyEvent.KEYCODE_1:
+			switch (pressedKey) {
+			case '1':
 				b1.setPressed(true);
 				soundPool.play(sound1ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "1";
 				break;
-			case KeyEvent.KEYCODE_2:
+			case '2':
 				b2.setPressed(true);
 				soundPool.play(sound2ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "2";
 				break;
-			case KeyEvent.KEYCODE_3:
+			case '3':
 				b3.setPressed(true);
 				soundPool.play(sound3ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "3";
 				break;
-			case KeyEvent.KEYCODE_4:
+			case '4':
 				b4.setPressed(true);
 				soundPool.play(sound4ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "4";
 				break;
-			case KeyEvent.KEYCODE_5:
+			case '5':
 				b5.setPressed(true);
 				soundPool.play(sound5ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "5";
 				break;
-			case KeyEvent.KEYCODE_6:
+			case '6':
 				b6.setPressed(true);
 				soundPool.play(sound6ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "6";
 				break;
-			case KeyEvent.KEYCODE_7:
+			case '7':
 				b7.setPressed(true);
 				soundPool.play(sound7ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "7";
 				break;
-			case KeyEvent.KEYCODE_8:
+			case '8':
 				b8.setPressed(true);
 				soundPool.play(sound8ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "8";
 				break;
-			case KeyEvent.KEYCODE_9:
+			case '9':
 				b9.setPressed(true);
 				soundPool.play(sound9ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "9";
 				break;
-			case KeyEvent.KEYCODE_STAR:
+			case '*':
 				bS.setPressed(true);
 				soundPool.play(soundSID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "*";
 				break;
-			case KeyEvent.KEYCODE_0:
+			case '0':
 				b0.setPressed(true);
 				soundPool.play(sound0ID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "0";
 				break;
-			case KeyEvent.KEYCODE_POUND:
+			case '#':
 				bP.setPressed(true);
 				soundPool.play(soundPID, streamVolume, streamVolume, 1, 0, 1f);
 				numbers = numbers + "#";
 				break;
-			case KeyEvent.KEYCODE_CLEAR:
-				bArrow.setPressed(true);
-				if(numbers.length() != 0)
-					numbers = numbers.substring(0 , numbers.length()-1);
-				break;
-			case KeyEvent.KEYCODE_CALL:
-				try {
-					Intent callIntent = new Intent(Intent.ACTION_CALL);
-					callIntent.setData(Uri.parse("tel:" + numbers));
-					callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					(getContext()).startActivity(callIntent);
-				} catch (ActivityNotFoundException e) {
-					Log.e("ACTION CALL", "Call failed", e);
+			default:
+				pressedNumbers.setText(numbers);
+				switch(keyCode){
+				case KeyEvent.KEYCODE_CLEAR:
+					bArrow.setPressed(true);
+					if(numbers.length() != 0)
+						numbers = numbers.substring(0 , numbers.length()-1);
+					break;
+				case KeyEvent.KEYCODE_CALL:
+					bCall.setPressed(true);
+					try {
+						Intent callIntent = new Intent(Intent.ACTION_CALL);
+						callIntent.setData(Uri.parse("tel:" + numbers));
+						callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						(getContext()).startActivity(callIntent);
+					} catch (ActivityNotFoundException e) {
+						Log.e("ACTION CALL", "Call failed", e);
+					}
+					break;
 				}
-				/*Intent intent = new Intent(Intent.ACTION_DIAL);
-			intent.setData(Uri.parse("tel:" + numbers));
-			((Activity)getContext()).startActivity(intent);
-				 */
-				break;
 			}
-			pressedNumbers.setText(numbers);
+			//pressedNumbers.setText(numbers);
 			return true;
 		}// sound loaded
 		else{// sound not loaded, just get pressed number
-			switch (keyCode) {
-			case KeyEvent.KEYCODE_1:
+			switch (pressedKey) {
+			case '1':
+				System.out.println("triggad");
 				b1.setPressed(true);
 				numbers = numbers + "1";
 				return true;
-			case KeyEvent.KEYCODE_2:
+			case '2':
 				b2.setPressed(true);
 				numbers = numbers + "2";
 				return true;
-			case KeyEvent.KEYCODE_3:
+			case '3':
 				b3.setPressed(true);
 				numbers = numbers + "3";
 				return true;
-			case KeyEvent.KEYCODE_4:
+			case '4':
 				b4.setPressed(true);
 				numbers = numbers + "4";
 				return true;
-			case KeyEvent.KEYCODE_5:
+			case '5':
 				b5.setPressed(true);
 				numbers = numbers + "5";
 				return true;
-			case KeyEvent.KEYCODE_6:
+			case '6':
 				b6.setPressed(true);
 				numbers = numbers + "6";
 				return true;
-			case KeyEvent.KEYCODE_7:
+			case '7':
 				b7.setPressed(true);
 				numbers = numbers + "7";
 				return true;
-			case KeyEvent.KEYCODE_8:
+			case '8':
 				b8.setPressed(true);
 				numbers = numbers + "8";
 				return true;
-			case KeyEvent.KEYCODE_9:
+			case '9':
 				b9.setPressed(true);
 				numbers = numbers + "9";
 				return true;
-			case KeyEvent.KEYCODE_STAR:
+			case '*':
 				bS.setPressed(true);
 				numbers = numbers + "*";
 				return true;
-			case KeyEvent.KEYCODE_0:
+			case '0':
 				b0.setPressed(true);
 				numbers = numbers + "0";
 				return true;
-			case KeyEvent.KEYCODE_POUND:
+			case '#':
 				bP.setPressed(true);
 				numbers = numbers + "#";
 				break;
-			case KeyEvent.KEYCODE_CLEAR:
-				bArrow.setPressed(true);
-				if(numbers.length() != 0)
-					numbers = numbers.substring(0 , numbers.length()-1);
-				break;
-			case KeyEvent.KEYCODE_CALL:
-				bCall.setPressed(true);
-				try {
-					Intent callIntent = new Intent(Intent.ACTION_CALL);
-					callIntent.setData(Uri.parse("tel:" + numbers));
-					callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					(getContext()).startActivity(callIntent);
-				} catch (ActivityNotFoundException e) {
-					Log.e("ACTION CALL", "Call failed", e);
+
+			default:
+				switch(keyCode){
+				case KeyEvent.KEYCODE_CLEAR:
+					bArrow.setPressed(true);
+					if(numbers.length() != 0)
+						numbers = numbers.substring(0 , numbers.length()-1);
+					break;
+				case KeyEvent.KEYCODE_CALL:
+					bCall.setPressed(true);
+					try {
+						Intent callIntent = new Intent(Intent.ACTION_CALL);
+						callIntent.setData(Uri.parse("tel:" + numbers));
+						callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						(getContext()).startActivity(callIntent);
+					} catch (ActivityNotFoundException e) {
+						Log.e("ACTION CALL", "Call failed", e);
+					}
+					break;
 				}
-				break;
 			}
-			pressedNumbers.setText(numbers);
+			//pressedNumbers.setText(numbers);
 			return true;
 		}// sound not loaded
 		//return super.onKeyDown(keyCode, event);
+		//pressedNumbers.setText(numbers);
 	}
-	
+
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		System.out.println("keyevent: " + keyCode);
-
-			switch (keyCode) {
-			case KeyEvent.KEYCODE_1:
-				b1.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_2:
-				b2.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_3:
-				b3.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_4:
-				b4.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_5:
-				b5.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_6:
-				b6.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_7:
-				b7.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_8:
-				b8.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_9:
-				b9.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_STAR:
-				bS.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_0:
-				b0.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_POUND:
-				bP.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_CLEAR:
-				bArrow.setPressed(false);
-				break;
-			case KeyEvent.KEYCODE_CALL:
-				bCall.setPressed(false);
-				break;
-			}
-			return true;
-		}// key up
+		pressedNumbers.setText(numbers);
+		
+		char pressedKey = (char) event.getUnicodeChar();
+		switch (pressedKey) {
+		case '1':
+			b1.setPressed(false);
+			break;
+		case '2':
+			b2.setPressed(false);
+			break;
+		case '3':
+			b3.setPressed(false);
+			break;
+		case '4':
+			b4.setPressed(false);
+			break;
+		case '5':
+			b5.setPressed(false);
+			break;
+		case '6':
+			b6.setPressed(false);
+			break;
+		case '7':
+			b7.setPressed(false);
+			break;
+		case '8':
+			b8.setPressed(false);
+			break;
+		case '9':
+			b9.setPressed(false);
+			break;
+		case '*':
+			bS.setPressed(false);
+			break;
+		case '0':
+			b0.setPressed(false);
+			break;
+		case '#':
+			bP.setPressed(false);
+			break;
+		default:
+				switch(keyCode){
+				case KeyEvent.KEYCODE_CLEAR:
+					bArrow.setPressed(false);
+					break;
+				case KeyEvent.KEYCODE_CALL:
+					bCall.setPressed(true);
+					break;
+				}
+		}
+		return true;
+	}// key up
 
 	public void onClick(View v) {
 		if(soundLoaded){
@@ -552,6 +556,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 					numbers = numbers.substring(0 , numbers.length()-1);
 				break;
 			case R.id.buttoncall:
+
+				System.out.println("encode");
 				try {
 					Intent callIntent = new Intent(Intent.ACTION_CALL);
 					callIntent.setData(Uri.parse("tel:" + numbers));
@@ -568,5 +574,16 @@ public class DialPadView extends TableLayout implements OnClickListener{
 			}
 			pressedNumbers.setText(numbers);
 		}
+	}
+	public void tryCall(){
+		try {
+			Intent callIntent = new Intent(Intent.ACTION_CALL);
+			callIntent.setData(Uri.parse("tel:" + numbers));
+			callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			(getContext()).startActivity(callIntent);
+		} catch (ActivityNotFoundException e) {
+			Log.e("ACTION CALL", "Call failed", e);
+		}
+		
 	}
 }
