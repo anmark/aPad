@@ -289,7 +289,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 					break;
 				case KeyEvent.KEYCODE_CALL:
 					bCall.setPressed(true);
-					tryCall();
+					//tryCall();
 					break;
 				}
 			}
