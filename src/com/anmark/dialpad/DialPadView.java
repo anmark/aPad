@@ -289,14 +289,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 					break;
 				case KeyEvent.KEYCODE_CALL:
 					bCall.setPressed(true);
-					try {
-						Intent callIntent = new Intent(Intent.ACTION_CALL);
-						callIntent.setData(Uri.parse("tel:" + numbers));
-						callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						(getContext()).startActivity(callIntent);
-					} catch (ActivityNotFoundException e) {
-						Log.e("ACTION CALL", "Call failed", e);
-					}
+					tryCall();
 					break;
 				}
 			}
@@ -364,22 +357,12 @@ public class DialPadView extends TableLayout implements OnClickListener{
 					break;
 				case KeyEvent.KEYCODE_CALL:
 					bCall.setPressed(true);
-					try {
-						Intent callIntent = new Intent(Intent.ACTION_CALL);
-						callIntent.setData(Uri.parse("tel:" + numbers));
-						callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						(getContext()).startActivity(callIntent);
-					} catch (ActivityNotFoundException e) {
-						Log.e("ACTION CALL", "Call failed", e);
-					}
 					break;
 				}
 			}
 			//pressedNumbers.setText(numbers);
 			return true;
 		}// sound not loaded
-		//return super.onKeyDown(keyCode, event);
-		//pressedNumbers.setText(numbers);
 	}
 
 	@Override
@@ -431,7 +414,8 @@ public class DialPadView extends TableLayout implements OnClickListener{
 					bArrow.setPressed(false);
 					break;
 				case KeyEvent.KEYCODE_CALL:
-					bCall.setPressed(true);
+					bCall.setPressed(false);
+					tryCall();
 					break;
 				}
 		}
@@ -497,18 +481,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 					numbers = numbers.substring(0 , numbers.length()-1);
 				break;
 			case R.id.buttoncall:
-				try {
-					Intent callIntent = new Intent(Intent.ACTION_CALL);
-					callIntent.setData(Uri.parse("tel:" + numbers));
-					callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					(getContext()).startActivity(callIntent);
-				} catch (ActivityNotFoundException e) {
-					Log.e("ACTION CALL", "Call failed", e);
-				}
-				/*Intent intent = new Intent(Intent.ACTION_DIAL);
-				intent.setData(Uri.parse("tel:" + numbers));
-				((Activity)getContext()).startActivity(intent);
-				 */
+				tryCall();
 				break;
 			}
 			pressedNumbers.setText(numbers);
@@ -556,20 +529,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 					numbers = numbers.substring(0 , numbers.length()-1);
 				break;
 			case R.id.buttoncall:
-
-				System.out.println("encode");
-				try {
-					Intent callIntent = new Intent(Intent.ACTION_CALL);
-					callIntent.setData(Uri.parse("tel:" + numbers));
-					callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					(getContext()).startActivity(callIntent);
-				} catch (ActivityNotFoundException e) {
-					Log.e("ACTION CALL", "Call failed", e);
-				}
-				/*Intent intent = new Intent(Intent.ACTION_DIAL);
-				intent.setData(Uri.parse("tel:" + numbers.trim()));
-				((Activity)getContext()).startActivity(intent);
-				 */
+				tryCall();
 				break;
 			}
 			pressedNumbers.setText(numbers);
@@ -578,7 +538,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 	public void tryCall(){
 		try {
 			Intent callIntent = new Intent(Intent.ACTION_CALL);
-			callIntent.setData(Uri.parse("tel:" + numbers));
+			callIntent.setData(Uri.parse("tel: " + Uri.encode(numbers)));
 			callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			(getContext()).startActivity(callIntent);
 		} catch (ActivityNotFoundException e) {
