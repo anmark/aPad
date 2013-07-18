@@ -280,7 +280,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 				numbers = numbers + "#";
 				break;
 			default:
-				pressedNumbers.setText(numbers);
+				//pressedNumbers.setText(numbers);
 				switch(keyCode){
 				case KeyEvent.KEYCODE_CLEAR:
 					bArrow.setPressed(true);
