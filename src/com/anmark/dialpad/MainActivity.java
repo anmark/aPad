@@ -1,17 +1,25 @@
 package com.anmark.dialpad;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends Activity{
+	
+	private DialPadView myDialPad;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DialPadView myDialPad = new DialPadView(getApplicationContext());
+		myDialPad = new DialPadView(getApplicationContext());
 		myDialPad.setFocusableInTouchMode(true);
-		setContentView(myDialPad);	
+		setContentView(myDialPad);
+		setupActionBar();
 	}
 
 	@Override
@@ -19,6 +27,45 @@ public class MainActivity extends Activity{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// This ID represents the Home or Up button. In the case of this
+			// activity, the Up button is shown. Use NavUtils to allow users
+			// to navigate up one level in the application structure. For
+			// more details, see the Navigation pattern on Android Design:
+			//
+			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+			//
+			finish();
+			return true;
+	
+		case R.id.action_settings:
+			Intent intent = new Intent(this, SettingsPreferenceActivity.class);
+			startActivityForResult(intent, DialPadView.RESULT_SETTINGS);
+			return true;
+		
+		case R.id.action_download:
+			Intent intent2 = new Intent(this, DownloadActivity.class);
+			intent2.putExtra(DialPadView.soundUrl, myDialPad.getSoundUrlData());
+			intent2.putExtra(DialPadView.destinationSoundFolder, myDialPad.getDestinationSoundFolderData());
+			startActivity(intent2);
+			return true;
+		}	
+		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 }

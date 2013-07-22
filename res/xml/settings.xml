@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:key="prefSoundType"
+        android:summary="@string/settings_soundtype"
+        android:title="@string/settings_sound" />
+
+    <ListPreference
+        android:entries="@array/voicelist"
+        android:entryValues="@array/voicelistvalues"
+        android:key="prefVoicelist"
+        android:summary="@string/settings_currentVoice"
+        android:title="@string/settings_voicefile" />
+
+    <EditTextPreference
+        android:key="prefSource"
+        android:summary="@string/settings_currentSource"
+        android:title="@string/settings_source" />
+    <EditTextPreference
+        android:key="prefStorage"
+        android:summary="@string/settings_currentStorage"
+        android:title="@string/settings_storage" />
+
+    <ListPreference
+        android:entries="@array/voicelist"
+        android:entryValues="@array/voicelistvalues"
+        android:key="prefVoiceListDelete"
+        android:summary="@string/settings_currentVoice"
+        android:title="@string/settings_delete" />
+
+</PreferenceScreen>

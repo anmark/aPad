@@ -2,8 +2,7 @@
 <resources>
 
     <string name="app_name">DialPad</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="action_download">Download new sounds</string>
     <string name="title_activity_dial_pad_view">DialPadView</string>
     <string name="button1Pressed">button1Pressed</string>
     <string name="button2Pressed">button2Pressed</string>
@@ -17,5 +16,17 @@
     <string name="buttonPPressed">buttonPPressed</string>
     <string name="button0Pressed">button0Pressed</string>
     <string name="buttonSPressed">buttonSPressed</string>
+    <string name="title_activity_download">Download new sounds</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings_preference">Settings</string>
+    <string name="settings_sound">Sound type</string>
+    <string name="settings_soundtype">Voice</string>
+    <string name="settings_voicefile">Voice file</string>
+    <string name="settings_source">Source for new voices</string>
+    <string name="settings_storage">Storage location</string>
+    <string name="settings_delete">Delete voice</string>
+    <string name="settings_currentVoice"></string>
+    <string name="settings_currentStorage"></string>
+    <string name="settings_currentSource"></string>
 
 </resources>

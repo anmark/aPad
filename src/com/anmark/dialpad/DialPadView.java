@@ -1,13 +1,19 @@
 package com.anmark.dialpad;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,13 +27,23 @@ import android.widget.Toast;
 
 public class DialPadView extends TableLayout implements OnClickListener{
 
-	private SoundPool soundPool;
 	//private HashMap<Integer, Integer> soundPoolMap;
 	boolean mExternalStorageAvailable = false;
 	boolean mExternalStorageWriteable = false;
+
+	public static String baseFilePath;
+	public static String destinationSoundFolder = "destinationSoundFolder";
+	public static final String PREFS_NAME = "Prefs";
+	static final String soundUrl = "soundUrl";
+	private String soundUrlData = "http://dt031g.programvaruteknik.nu/dialpad/sounds/";
+	static final String soundUrlHost = "http://dt031g.programvaruteknik.nu";
+	static final int RESULT_SETTINGS = 1;
+
 	private String state;
-	private String baseFilePath;
-	private String currentSoundFolder;
+	private Context context;
+	private SoundPool soundPool;
+	private String currentSoundFolderData;
+	private String destinationSoundFolderData;
 	private String numbers;
 	private EditText pressedNumbers;
 	private Button b1, b2, b3, b4, b5, b6, b7, b8, b9, bS, b0, bP, bArrow, bCall;
@@ -38,16 +54,19 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 	public DialPadView(Context context) {
 		super(context);
+		this.context = context;
 		/*LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.activity_dial_pad_view, this, true);
 		 */
 		View.inflate(context, R.layout.activity_dial_pad_view, this);
 		init(context);
+
 	}
 
 	public DialPadView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		this.context = context;
 		View.inflate(context, R.layout.activity_dial_pad_view, this);
 		init(context);
 	}
@@ -78,10 +97,11 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 		if(mExternalStorageAvailable){
 			baseFilePath = Environment.getExternalStorageDirectory() + "/dialpad/sounds/";
+			destinationSoundFolderData = baseFilePath;
 		}
 
 		//TODO: set smarter
-		currentSoundFolder = "mamacita_us/";
+		currentSoundFolderData = "mamacita_us/";
 
 		sound1ID = 1;
 		sound2ID = 2;
@@ -164,23 +184,23 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		// Environment.getExternalStorageDirectory() + /dialpad/sounds/ + mamacita_us/ + filename
 
 		if(mExternalStorageAvailable){
-			soundPool.load(baseFilePath + currentSoundFolder + "one.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "two.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "three.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "four.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "five.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "six.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "seven.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "eight.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "nine.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "star.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "zero.mp3", 1);
-			soundPool.load(baseFilePath + currentSoundFolder + "pound.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "one.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "two.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "three.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "four.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "five.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "six.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "seven.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "eight.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "nine.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "star.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "zero.mp3", 1);
+			soundPool.load(baseFilePath + currentSoundFolderData + "pound.mp3", 1);
 			soundLoaded = true;
 		}
 		else{
 			// Prompt user if no external storage available
-			
+
 			int duration = Toast.LENGTH_LONG;
 			Toast toast = Toast.makeText(context,
 					"No external sd card found, sound will not be played", duration);
@@ -212,6 +232,13 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		System.out.println(event.getUnicodeChar());
 		System.out.println((char) event.getUnicodeChar());
 		char pressedKey = (char) event.getUnicodeChar();
+
+		if (keyCode == KeyEvent.KEYCODE_MENU) {
+			//TODO: Solve menu button settings opened
+
+			//getParent().getMenuInflater().inflate(R.menu.main);
+			System.out.println("menu : " + keyCode);      
+		}
 
 		if(soundLoaded){
 			// Get user sound settings
@@ -369,7 +396,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		System.out.println("keyevent: " + keyCode);
 		pressedNumbers.setText(numbers);
-		
+
 		char pressedKey = (char) event.getUnicodeChar();
 		switch (pressedKey) {
 		case '1':
@@ -409,15 +436,15 @@ public class DialPadView extends TableLayout implements OnClickListener{
 			bP.setPressed(false);
 			break;
 		default:
-				switch(keyCode){
-				case KeyEvent.KEYCODE_CLEAR:
-					bArrow.setPressed(false);
-					break;
-				case KeyEvent.KEYCODE_CALL:
-					bCall.setPressed(false);
-					tryCall();
-					break;
-				}
+			switch(keyCode){
+			case KeyEvent.KEYCODE_CLEAR:
+				bArrow.setPressed(false);
+				break;
+			case KeyEvent.KEYCODE_CALL:
+				bCall.setPressed(false);
+				tryCall();
+				break;
+			}
 		}
 		return true;
 	}// key up
@@ -540,10 +567,62 @@ public class DialPadView extends TableLayout implements OnClickListener{
 			Intent callIntent = new Intent(Intent.ACTION_CALL);
 			callIntent.setData(Uri.parse("tel: " + Uri.encode(numbers)));
 			callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			(getContext()).startActivity(callIntent);
+			context.startActivity(callIntent);
 		} catch (ActivityNotFoundException e) {
 			Log.e("ACTION CALL", "Call failed", e);
 		}
-		
+
 	}
+	// Save preferences
+	private void savePrefs() {
+		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.putString("destinationSoundFolder", destinationSoundFolderData);
+
+		// Commit the edits!
+		editor.commit();
+	}
+	private void loadSharedPrefs() {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+		destinationSoundFolderData = sharedPrefs.getString(destinationSoundFolder, Environment.getExternalStorageDirectory() + "/dialpad/sounds/");
+	}
+
+	public boolean ismExternalStorageAvailable() {
+		return mExternalStorageAvailable;
+	}
+
+	public boolean isSoundLoaded() {
+		return soundLoaded;
+	}
+
+	public boolean ismExternalStorageWriteable() {
+		return mExternalStorageWriteable;
+	}
+
+	public String getCurrentSoundFolderData() {
+		return currentSoundFolderData;
+	}
+
+	public String getDestinationSoundFolderData() {
+		return destinationSoundFolderData;
+	}
+
+	public String getSoundUrlData() {
+		return soundUrlData;
+	}
+
+	public void setSoundUrlData(String soundUrlData) {
+		this.soundUrlData = soundUrlData;
+	}
+
+	public void setDestinationSoundFolderData(String destinationSoundFolderData) {
+		this.destinationSoundFolderData = destinationSoundFolderData;
+	}
+
+	public void setCurrentSoundFolderData(String currentSoundFolderData) {
+		this.currentSoundFolderData = currentSoundFolderData;
+	}
+
 }
