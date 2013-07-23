@@ -2,9 +2,9 @@
 <resources>
     <string-array name="voicelist">
         <item name="1">get list from somewhere</item>
-        <item name="7">Once a week</item>
+        <item name="2">Once a week</item>
         <item name="3">Once a year</item>
-        <item name="0">Never (Update maually)</item>
+        <item name="4">Never (Update maually)</item>
     </string-array>
     <string-array name="voicelistvalues">
         <item name="1">1</item>

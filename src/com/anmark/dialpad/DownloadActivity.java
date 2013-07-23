@@ -84,30 +84,6 @@ public class DownloadActivity extends Activity {
 
 			}
 		});
-
-		/*
-		PreferenceCategory mainCategory = new PreferenceCategory(this);  
-		
-		 CharSequence[] entries = {"Two", "One", "Other"};  
-		
-		
-		
-		final ListPreference listPref = new ListPreference(this);  
-		 listPref.setKey("keyDevice"); // Refer to get the pref value  
-		 listPref.setDefaultValue("One");  
-		 listPref.setEntries(entries);  
-		 listPref.setEntryValues(entries);  
-		 listPref.setDialogTitle("Title");  
-		 listPref.setTitle("Title 2");  
-		 listPref.setSummary("Summary");  
-		 mainCategory.addPreference(listPref); // Adding under the category  
-		 listPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {  
-		     public boolean onPreferenceChange(Preference preference, Object newValue) {  
-		     //newValue will be the entryValue for the entry selected  
-		     return true;  
-		 }  
-		 });  
-		*/
 		
 	}
 
