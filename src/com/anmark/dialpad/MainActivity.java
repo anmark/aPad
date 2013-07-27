@@ -44,7 +44,7 @@ public class MainActivity extends Activity{
 	
 		case R.id.action_settings:
 			Intent intent = new Intent(this, SettingsPreferenceActivity.class);
-			startActivityForResult(intent, DialPadView.RESULT_SETTINGS);
+			startActivity(intent);
 			return true;
 		
 		case R.id.action_download:

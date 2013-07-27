@@ -3,7 +3,6 @@ package com.anmark.dialpad;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.Preferences;
 
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
@@ -14,6 +13,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,13 +37,12 @@ public class DialPadView extends TableLayout implements OnClickListener{
 	public static final String PREFS_NAME = "Prefs";
 	static final String soundUrl = "soundUrl";
 	private String soundUrlData = "http://dt031g.programvaruteknik.nu/dialpad/sounds/";
-	static final String soundUrlHost = "http://dt031g.programvaruteknik.nu";
 	static final int RESULT_SETTINGS = 1;
 
 	private String state;
 	private Context context;
 	private SoundPool soundPool;
-	private String currentSoundFolderData;
+	private String currentSoundFolderData = null;
 	private String destinationSoundFolderData;
 	private String numbers;
 	private EditText pressedNumbers;
@@ -73,6 +72,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 	}
 
 	public void checkMediaAvailability(){
+		state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			// We can read and write the media
 			mExternalStorageAvailable = mExternalStorageWriteable = true;
@@ -89,16 +89,16 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 	@SuppressLint("UseSparseArrays")
 	public void init(Context context){
-
-		//RelativeLayout rel = (RelativeLayout)findViewById(R.layout.activity_dial_pad_view);
-		//rel.setFocusable(true); 
-
-		state = Environment.getExternalStorageState();
+		
 		checkMediaAvailability();
+		
+		System.out.println("test again");
+		
 
 		if(mExternalStorageAvailable){
 			//baseFilePath = Environment.getExternalStorageDirectory() + "/dialpad/sounds/";
 			//destinationSoundFolderData = baseFilePath;
+			
 			createDirIfNotExists(Environment.getExternalStorageDirectory() + "/dialpad/sounds");
 			
 			/*
@@ -208,7 +208,7 @@ public class DialPadView extends TableLayout implements OnClickListener{
 
 		System.out.println("cur: " + currentSoundFolderData);
 
-		if(currentSoundFolderData.equals("none/")){
+		if(currentSoundFolderData == null){
 			// Prompt user if no voice specified
 
 			int duration = Toast.LENGTH_LONG;
@@ -221,18 +221,19 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		else {
 			
 		if(mExternalStorageAvailable){
-			soundPool.load(currentSoundFolderData + "one.mp3", 1);
-			soundPool.load(currentSoundFolderData + "two.mp3", 1);
-			soundPool.load(currentSoundFolderData + "three.mp3", 1);
-			soundPool.load(currentSoundFolderData + "four.mp3", 1);
-			soundPool.load(currentSoundFolderData + "five.mp3", 1);
-			soundPool.load(currentSoundFolderData + "six.mp3", 1);
-			soundPool.load(currentSoundFolderData + "seven.mp3", 1);
-			soundPool.load(currentSoundFolderData + "eight.mp3", 1);
-			soundPool.load(currentSoundFolderData + "nine.mp3", 1);
-			soundPool.load(currentSoundFolderData + "star.mp3", 1);
-			soundPool.load(currentSoundFolderData + "zero.mp3", 1);
-			soundPool.load(currentSoundFolderData + "pound.mp3", 1);
+			String workaroundcurrentSoundFolderData = currentSoundFolderData + "/";
+			soundPool.load(workaroundcurrentSoundFolderData + "one.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "two.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "three.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "four.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "five.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "six.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "seven.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "eight.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "nine.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "star.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "zero.mp3", 1);
+			soundPool.load(workaroundcurrentSoundFolderData + "pound.mp3", 1);
 			soundLoaded = true;
 		}
 		else{
@@ -613,10 +614,16 @@ public class DialPadView extends TableLayout implements OnClickListener{
 	}
 	// Save preferences
 	private void savePrefs() {
-		SharedPreferences sharedPrefs = context.getSharedPreferences(PREFS_NAME, 0);
+		/*
+		 * SharedPreferences sharedPrefs = context.getSharedPreferences(PREFS_NAME, 0);
+		 
+		
+		*/
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		
 		SharedPreferences.Editor editor = sharedPrefs.edit();
 
-		//editor.putString("prefVoicelist", currentSoundFolderData);
+		editor.putString("prefVoicelist", currentSoundFolderData);
 		editor.putString("prefSource", soundUrlData);
 		editor.putString("prefStorage", destinationSoundFolderData);
 
@@ -624,15 +631,20 @@ public class DialPadView extends TableLayout implements OnClickListener{
 		editor.commit();
 	}
 	private void loadSharedPrefs() {
-		SharedPreferences sharedPrefs = context.getSharedPreferences(PREFS_NAME, 0);
+		//SharedPreferences sharedPrefs = context.getSharedPreferences(PREFS_NAME, 0);
+		
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		currentSoundFolderData = sharedPrefs.getString("prefVoicelist", "none") + "/";
+		
+		currentSoundFolderData = sharedPrefs.getString("prefVoicelist", null);
 		soundUrlData = sharedPrefs.getString("prefSource", "http://dt031g.programvaruteknik.nu/dialpad/sounds/");
-		destinationSoundFolderData = sharedPrefs.getString("prefStorage", Environment.getExternalStorageDirectory() + "/dialpad/sounds/");
-
+		destinationSoundFolderData = sharedPrefs.getString("prefStorage", Environment.getExternalStorageDirectory() + "/dialpad/sounds");
+		 	
 		System.out.println("a"+ currentSoundFolderData);
 		System.out.println("b" + soundUrlData);
 		System.out.println("c" +destinationSoundFolderData);
+		
+		
 	}
 
 	public boolean ismExternalStorageAvailable() {

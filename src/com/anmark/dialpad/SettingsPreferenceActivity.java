@@ -36,6 +36,10 @@ public class SettingsPreferenceActivity extends PreferenceActivity implements On
 		storage = (EditTextPreference)getPreferenceScreen().findPreference("prefStorage");
 
 		if(DialPadView.mExternalStorageAvailable) {
+			
+			
+			System.out.println("mExternalStorageAvailable: " +DialPadView.mExternalStorageAvailable );
+			
 			String [] entries = getVoiceListEntries(Environment.getExternalStorageDirectory() + "/dialpad/sounds/");
 			String [] entryValues = getVoiceListEntryValues(Environment.getExternalStorageDirectory() + "/dialpad/sounds/");
 			voice.setEntries(entries);
@@ -47,12 +51,15 @@ public class SettingsPreferenceActivity extends PreferenceActivity implements On
 		//storage.setText(Environment.getExternalStorageDirectory() + "/dialpad/sounds/");
 		//source.setText("http://dt031g.programvaruteknik.nu/dialpad/sounds/");
 
-		storage.setDefaultValue(Environment.getExternalStorageDirectory() + "/dialpad/sounds/");
+		//storage.setDefaultValue(Environment.getExternalStorageDirectory() + "/dialpad/sounds/");
 		
 		}
 		
 
 		// set current input as summary
+		if (voice.getEntry() != null) {
+			voice.setSummary(voice.getEntry());
+		}
 		voice.setSummary(voice.getEntry());
 		source.setSummary(source.getText());
 		storage.setSummary(storage.getText());
@@ -76,9 +83,9 @@ public class SettingsPreferenceActivity extends PreferenceActivity implements On
 		voice.setEntryValues(entryValues);
 		 */
 
-		System.out.println("1" +sharedPreferences.getString("prefVoicelist", ""));
-		System.out.println("2" +sharedPreferences.getString("prefSource", ""));
-		System.out.println("3" + sharedPreferences.getString("prefStorage", ""));
+		System.out.println("1 " +sharedPreferences.getString("prefVoicelist", ""));
+		System.out.println("2 " +sharedPreferences.getString("prefSource", ""));
+		System.out.println("3 " + sharedPreferences.getString("prefStorage", ""));
 
 		updatePrefSummary(findPreference(key));
 

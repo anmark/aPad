@@ -7,7 +7,7 @@
         android:title="@string/settings_sound" />
 
     <ListPreference
-        android:entryValues="@array/voicelistvalues"
+        android:persistent="true"
         android:key="prefVoicelist"
         android:title="@string/settings_voicefile" />
 
